@@ -6,23 +6,12 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\File;
+use App\Models\Reservation;
 class BookController extends Controller
 {
 
     public function addBook(Request $request)
     {
-    //        Validator::validate($request->upload, [
-    //            'attachment' => [
-    //                'required',
-    //                File::types(['png', 'webp', 'jpg'])
-    //            ],
-    //        ]);
-    //        Validator::validate($request->title, [
-    //            'attachment' => [
-    //                'required',
-    //            ],
-    //        ]);
-
         $request->validate([
             'title'=>'required',
             'description'=>'required',
@@ -59,7 +48,7 @@ class BookController extends Controller
     }
 
 
-    public function update(Request $request, $id)
+    public function  update(Request $request, $id)
     {
         $book = Book::find($id);
         $book ->title=$request->input('title');
@@ -72,5 +61,21 @@ class BookController extends Controller
     {
         $book = Book::find($id);
         return view('detials' , ['book' => $book]);
+    }
+
+    public function ReseveAbook(Request $request)
+    {
+        $book = new Reservation();
+        $book->reservation_start = $request->startDate;
+        $book->reservation_end = $request->EndData;
+        $book->book_id = $request->book_id;
+        $book->user_id = $request->user_id;
+        $book->save();
+        return redirect()->route('show');
+    }
+
+    public function MainPage()
+    {
+        return view('hero');
     }
 }

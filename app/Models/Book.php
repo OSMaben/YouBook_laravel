@@ -9,4 +9,14 @@ class Book extends Model
 {
     public $timestamps = false;
     use HasFactory;
+
+    public function isReserved()
+    {
+        return $this->reservations()->exists();
+    }
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
 }
