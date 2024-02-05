@@ -30,3 +30,7 @@ Route::post('/books', [BookController::class, 'ReseveAbook'])->name('reserve');
 
 
 Route::get('/main', [BookController::class , 'MainPage'])->name('main');
+
+
+Route::get('/register', [BookController::class , 'Register'])->name('register');
+Route::get('/login', [BookController::class , 'login'])->name('login');

@@ -78,4 +78,14 @@ class BookController extends Controller
     {
         return view('hero');
     }
+
+    public function Register()
+    {
+        return view('register');
+    }
+    public function login()
+    {
+        return view('login');
+    }
+
 }
