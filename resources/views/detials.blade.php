@@ -130,8 +130,41 @@
             <h1>{{$book->title}}</h1>
             <p>{{$book->description}} </p>
         </div>
-        <div class="product-price-btn">
-            <button type="button">Reserve</button>
+        <div type="button"  class="product-price-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            @if($book->isReserved())
+                <button type="button" disabled>Reserve</button>
+            @else
+                <button type="button">Reserve</button>
+            @endif
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">{{$book->title}}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+           <form method="post" action="{{route('reserve')}}">
+               @csrf
+               <input type="hidden" name="book_id" value="{{$book->id}}">
+               <input type="hidden" name="user_id" value="2">
+               <div class="modal-body">
+                   <label>Start Date:</label>
+                   <input type="date" name="startDate" value="{{date('Y-m-d')}}">
+                   <br>
+                   <br>
+                   <label>End Date: </label>
+                   <input type="date" name="EndData">
+               </div>
+               <div class="modal-footer">
+                   <button type="button" class="btn text-white" style="background: #ef4444" data-bs-dismiss="modal">Cancel</button>
+                   <button type="submit" name="saveBook" class="btn text-white" style="background: #00048f">Save Book</button>
+               </div>
+           </form>
         </div>
     </div>
 </div>
