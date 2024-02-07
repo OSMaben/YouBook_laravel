@@ -3,10 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\File;
 use App\Models\Reservation;
+use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Auth;
+
 class BookController extends Controller
 {
 
@@ -76,16 +81,55 @@ class BookController extends Controller
 
     public function MainPage()
     {
-        return view('hero');
+        return view('books');
     }
 
     public function Register()
     {
         return view('register');
     }
-    public function login()
+
+
+    public function showLoginForm()
     {
         return view('login');
+    }
+
+    public function loginUser(Request $request)
+    {
+        $credentials = $request->only('email', 'password');
+
+        $user = User::where('email', $credentials['email'])->first();
+
+        if ($user && Hash::check($credentials['password'], $user->password)) {
+            Auth::login($user);
+            return redirect()->intended('main');
+        } else {
+            return redirect('/login')->withErrors(['email' => 'These credentials do not match our records.'])->withInput($request->only('email'));
+        }
+    }
+
+
+    public function RegisterUser(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+        ]);
+
+        $user = new User;
+        $user->name = $request->name;
+        $user->role_id = 2;
+        $user->email = $request->email;
+        $user->email_verified_at = Now();
+        $user->password = $request->password;
+        $user->save();
+        return redirect()->route('login');
+    }
+    public function logoutUser()
+    {
+        Auth::logout();
+        return redirect('/login');
     }
 
 }

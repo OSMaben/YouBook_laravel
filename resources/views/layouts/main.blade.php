@@ -27,10 +27,24 @@
                 <a class="nav-link" href="#">Home</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <a href="/login" class="btn btn-outline-success my-2 my-sm-0" >Login</a>
-            <a href="/register" class="btn btn-success  bg-primary my-2 my-sm-0 " >Register</a>
-        </form>
+        @if(Auth::check())
+            <form class="form-inline my-2 my-lg-0">
+                <div class="dropdown">
+                    <button class="btn btn-secondary bg-secondary dropdown-toggle mx-5" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        profile
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Edit</a></li>
+                        <li><a class="dropdown-item" href="{{route('logout')}}">Log Out</a></li>
+                    </ul>
+                </div>
+            </form>
+        @else
+            <form class="form-inline my-2 my-lg-0">
+                <a href="/login" class="btn btn-outline-success my-2 my-sm-0">Login</a>
+                <a href="/register" class="btn btn-success bg-primary my-2 my-sm-0">Register</a>
+            </form>
+        @endif
     </div>
 </nav>
 <div class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">

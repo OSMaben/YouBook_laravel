@@ -12,11 +12,13 @@ use App\Http\Controllers\BookController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-Route::get('/', [BookController::class , 'ShowBook'])->name('show');
-
-
-Route::post('/', [BookController::class, 'addBook'])->name('books');
+//
+Route::get('/', function (){
+    return view('hero');
+});
+//
+//
+//Route::post('/', [BookController::class, 'addBook'])->name('books');
 
 Route::delete('/delete/{id}', [BookController::class, 'delete'])->name('delete.book');
 
@@ -29,8 +31,15 @@ Route::get('/books/{id}', [BookController::class , 'seeBookDetails'])->name('boo
 Route::post('/books', [BookController::class, 'ReseveAbook'])->name('reserve');
 
 
-Route::get('/main', [BookController::class , 'MainPage'])->name('main');
+Route::get('/main', [BookController::class , 'ShowBook'])->name('show');
+Route::post('/main', [BookController::class , 'addBook'])->name('books');
 
 
 Route::get('/register', [BookController::class , 'Register'])->name('register');
-Route::get('/login', [BookController::class , 'login'])->name('login');
+Route::post('/register', [BookController::class , 'RegisterUser'])->name('register.user');
+
+Route::get('/login', [BookController::class , 'showLoginForm'])->name('login');
+Route::post('/login', [BookController::class , 'loginUser'])->name('login.user');
+
+
+Route::get('/logout', [BookController::class , 'logoutUser'])->name('logout');
